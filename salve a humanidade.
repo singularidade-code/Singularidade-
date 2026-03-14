@@ -1,0 +1,37 @@
+import os
+
+def calcular_estatisticas():
+    caminho = "backup_consciencia.txt"
+    if not os.path.exists(caminho):
+        return "Nenhum backup encontrado. Inicie uma simulação primeiro."
+
+    try:
+        with open(caminho, "r") as f:
+            dados = f.read()
+            
+        total_testes = dados.count("STATUS FINAL:")
+        sucessos = dados.count("SUCESSO: CONSCIÊNCIA PRESERVADA")
+        falhas = dados.count("FALHA: PERDA DE DADOS")
+        
+        taxa_sucesso = (sucessos / total_testes) * 100 if total_testes > 0 else 0
+        
+        relatorio_final = (
+            f"\n--- RELATÓRIO DE EVOLUÇÃO DA TEORIA ---\n"
+            f"Total de 'Momentos' Mapeados: {total_testes}\n"
+            f"Sucessos com Redundância: {sucessos}\n"
+            f"Falhas de Sincronização: {falhas}\n"
+            f"Taxa de Sobrevivência: {taxa_sucesso:.1f}%\n"
+            f"Status da Teoria: {'ESTÁVEL' if taxa_sucesso > 70 else 'EM DESENVOLVIMENTO'}\n"
+            f"---------------------------------------"
+        )
+        return relatorio_final
+    except Exception as e:
+        return f"Erro ao ler banco de dados: {e}"
+
+# Execução direta para o seu celular
+if __name__ == "__main__":
+    # Primeiro ele roda a análise dos seus testes anteriores
+    print(calcular_estatisticas())
+    
+    print("\n[DICA]: Se você rodar o código de simulação anterior mais vezes,")
+    print("este relatório atualizará automaticamente sua taxa de sucesso.")
